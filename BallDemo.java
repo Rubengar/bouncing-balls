@@ -39,7 +39,7 @@ public class BallDemo
             Random aleatorio = new Random();
             int posicionX = aleatorio.nextInt(250);
             int posicionY = aleatorio.nextInt(250);
-            int radio = aleatorio.nextInt(75);
+            int radio = aleatorio.nextInt(40);
             BouncingBall ball = new BouncingBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())),ground, myCanvas);
             ball.draw();
             bolas.add(ball);
@@ -56,12 +56,48 @@ public class BallDemo
                 ball.move();
                 if(ball.getXPosition() >= 550) 
                 {
-                 finished = true;
+                    finished = true;
                 }
             }
 
-                // stop once ball has travelled a certain distance on x axis
+            // stop once ball has travelled a certain distance on x axis
+        }
+
+    }
+
+    public void boxBounce(int numBolas)
+    {
+        myCanvas.drawLine(200,200, 150, 150);
+     
+        myCanvas.setVisible(true);
+        ArrayList<Color> colores = new ArrayList<>();
+        ArrayList<BoxBall> bolas = new ArrayList<>();
+        colores.add(Color.RED);
+        colores.add(Color.BLUE);
+        colores.add(Color.GREEN);
+        colores.add(Color.YELLOW);
+        for (int i = 0; i<numBolas;i++)
+        {
+            Random aleatorio = new Random();
+            int posicionX = aleatorio.nextInt(250);
+            int posicionY = aleatorio.nextInt(250);
+            int radio = aleatorio.nextInt(40);
+            BoxBall ball = new BoxBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())),100, myCanvas);
+            ball.draw();
+            bolas.add(ball);
+
         }
         
+        boolean finished =  false;
+        while (!finished) 
+        {
+            myCanvas.wait(25);// small delay
+            for(BoxBall ball: bolas)
+            {
+                ball.move();
+          
+            }
+            // stop once ball has travelled a certain distance on x axis
+        }
     }
 }
