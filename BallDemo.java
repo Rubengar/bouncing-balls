@@ -64,12 +64,12 @@ public class BallDemo
         }
 
     }
-
     /**
      * Metodo que crea un rectangulo y dentro de el un numero de bolas que indique el usuario
      */
     public void boxBounce(int numBolas)
     {
+        //Crea un cuadrado
         myCanvas.drawLine(0, 0, 200,0);
         myCanvas.drawLine(200, 0, 200, 300);
         myCanvas.drawLine(200, 300, 0, 300);
@@ -93,7 +93,6 @@ public class BallDemo
             bolas.add(ball);
 
         }
-
         boolean finished =  false;
         while (!finished) 
         {
@@ -101,14 +100,6 @@ public class BallDemo
             for(BoxBall ball: bolas)
             {
                 ball.move();
-                if(ball.getXPosition() >= 250) 
-                {
-                    ball.move();
-                }
-                if(ball.getYPosition() >= 150) 
-                {
-                    ball.move();
-                }
             }
             // stop once ball has travelled a certain distance on x axis
         }
