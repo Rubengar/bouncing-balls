@@ -65,10 +65,16 @@ public class BallDemo
 
     }
 
+    /**
+     * Metodo que crea un rectangulo y dentro de el un numero de bolas que indique el usuario
+     */
     public void boxBounce(int numBolas)
     {
-        myCanvas.drawLine(200,200, 150, 150);
-     
+        myCanvas.drawLine(0, 0, 200,0);
+        myCanvas.drawLine(200, 0, 200, 300);
+        myCanvas.drawLine(200, 300, 0, 300);
+        myCanvas.drawLine(0, 300, 0, 0);
+        
         myCanvas.setVisible(true);
         ArrayList<Color> colores = new ArrayList<>();
         ArrayList<BoxBall> bolas = new ArrayList<>();
@@ -79,15 +85,15 @@ public class BallDemo
         for (int i = 0; i<numBolas;i++)
         {
             Random aleatorio = new Random();
-            int posicionX = aleatorio.nextInt(250);
-            int posicionY = aleatorio.nextInt(250);
-            int radio = aleatorio.nextInt(40);
-            BoxBall ball = new BoxBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())),100, myCanvas);
+            int posicionX = aleatorio.nextInt(200);
+            int posicionY = aleatorio.nextInt(300);
+            int radio = aleatorio.nextInt(20);
+            BoxBall ball = new BoxBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())), myCanvas);
             ball.draw();
             bolas.add(ball);
 
         }
-        
+
         boolean finished =  false;
         while (!finished) 
         {
@@ -95,7 +101,14 @@ public class BallDemo
             for(BoxBall ball: bolas)
             {
                 ball.move();
-          
+                if(ball.getXPosition() >= 250) 
+                {
+                    ball.move();
+                }
+                if(ball.getYPosition() >= 150) 
+                {
+                    ball.move();
+                }
             }
             // stop once ball has travelled a certain distance on x axis
         }

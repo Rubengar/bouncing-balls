@@ -18,13 +18,15 @@ import java.awt.geom.*;
 
 public class BoxBall
 {
-    private int ballDegradation = 2;
     private Ellipse2D.Double circle;
     private Color color;
     private int diameter;
     private int xPosition;
     private int yPosition;
-    private final int groundPosition;      // y position of ground
+    private final int groundPosition;// y position of ground
+    private final int pared1;//posicion x de pared1
+    private final int pared2;//posicion x de pared2
+    private final int techo;//posicion y de techo;
     private Canvas canvas;
     private int ySpeed = 1;                // initial downward speed
 
@@ -38,14 +40,16 @@ public class BoxBall
      * @param groundPos  the position of the ground (where the wall will bounce)
      * @param drawingCanvas  the canvas to draw this ball on
      */
-    public BoxBall(int xPos, int yPos, int ballDiameter, Color ballColor,
-                        int groundPos, Canvas drawingCanvas)
+    public BoxBall(int xPos, int yPos, int ballDiameter, Color ballColor, Canvas drawingCanvas)
     {
         xPosition = xPos;
         yPosition = yPos;
         color = ballColor;
         diameter = ballDiameter;
-        groundPosition = groundPos;
+        groundPosition = 300;
+        pared1 = 0;
+        pared2 = 200;
+        techo = 0;
         canvas = drawingCanvas;
     }
 
@@ -75,16 +79,30 @@ public class BoxBall
         erase();
             
         // compute new position
-
-        yPosition ++;
-        xPosition ++;
+        if(yPosition < 300 && xPosition < 200)
+        {
+            yPosition++;
+            xPosition++;
+        }
+        else if (yPosition == groundPosition - diameter)
+        {
+            yPosition--;
+            xPosition++;
+        }
+        else if (xPosition == pared2 - diameter)
+        {
+            yPosition++;
+            xPosition--;
+        }
+      
 
         // check if it has hit the ground
         if(yPosition >= (groundPosition - diameter) && ySpeed > 0) {
             yPosition = (int)(groundPosition - diameter);
-            ySpeed = -ySpeed + ballDegradation; 
         }
-
+         if(xPosition >= (pared2 - diameter) && ySpeed > 0) {
+            xPosition = (int)(pared2 - diameter);
+        }
         // draw again at new position
         draw();
     }    
