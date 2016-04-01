@@ -1,11 +1,10 @@
 import java.awt.Color;
-import java.util.Random;
-import java.util.ArrayList;
+import java.util.*;
 /**
  * Class BallDemo - a short demonstration showing animation with the 
  * Canvas class. 
  *
- * @author Michael KÃ¶lling and David J. Barnes
+ * @author Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
 
@@ -24,84 +23,95 @@ public class BallDemo
     /**
      * Simulate two bouncing balls
      */
-    public void bounce(int numBolas)
+    public void bounce(int numbolas)
     {
-        int ground = 400;// position of the ground line
+        int ground = 400;   // position of the ground line
+        Random aleatorio = new Random();
         myCanvas.setVisible(true);
-        ArrayList<Color> colores = new ArrayList<>();
-        ArrayList<BouncingBall> bolas = new ArrayList<>();
-        colores.add(Color.RED);
-        colores.add(Color.BLUE);
-        colores.add(Color.GREEN);
-        colores.add(Color.YELLOW);
-        for (int i = 0; i<numBolas;i++)
-        {
-            Random aleatorio = new Random();
-            int posicionX = aleatorio.nextInt(250);
-            int posicionY = aleatorio.nextInt(250);
-            int radio = aleatorio.nextInt(40);
-            BouncingBall ball = new BouncingBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())),ground, myCanvas);
-            ball.draw();
-            bolas.add(ball);
-
-        }
+        // draw the ground
         myCanvas.drawLine(50, ground, 550, ground);
 
-        boolean finished =  false;
-        while (!finished) 
+        // crate and show the balls
+        ArrayList<BouncingBall> bolas = new ArrayList<>();
+        for (int cont = 0;cont<numbolas;cont++)
         {
-            myCanvas.wait(25);// small delay
-            for(BouncingBall ball: bolas)
+            int diametro = aleatorio.nextInt(25)+aleatorio.nextInt(25);
+            Color colorA = new Color(aleatorio.nextInt(255),aleatorio.nextInt(255),aleatorio.nextInt(255));
+            bolas.add(new BouncingBall(aleatorio.nextInt(150), aleatorio.nextInt(150), diametro, colorA, ground, myCanvas));
+            bolas.get(cont).draw();
+        }
+
+        // make them bounce
+        boolean finished =  false;
+        while(!finished) {
+            int contbol = 0;
+            myCanvas.wait(50);           // small delay
+            for (int cont = 0;cont<numbolas;cont++)
             {
-                ball.move();
-                if(ball.getXPosition() >= 550) 
-                {
+                bolas.get(cont).move();
+            }
+            // stop once ball has travelled a certain distance on x axis
+            while(contbol < bolas.size())
+            {
+                if(bolas.get(contbol).getXPosition() >= 550) {
                     finished = true;
                 }
+                contbol++;
             }
-
-            // stop once ball has travelled a certain distance on x axis
         }
-
     }
+    
     /**
-     * Metodo que crea un rectangulo y dentro de el un numero de bolas que indique el usuario
+     * Metodo que genera bolas dentro de un rectangulo.
      */
-    public void boxBounce(int numBolas)
+    public void boxBounce(int numbolas)
     {
-        //Crea un cuadrado
-        myCanvas.drawLine(0, 0, 200,0);
-        myCanvas.drawLine(200, 0, 200, 300);
-        myCanvas.drawLine(200, 300, 0, 300);
-        myCanvas.drawLine(0, 300, 0, 0);
-        
+        Random aleatorio = new Random();
         myCanvas.setVisible(true);
-        ArrayList<Color> colores = new ArrayList<>();
+        myCanvas.drawLine(50, 50, 550, 50);
+        myCanvas.drawLine(550, 50, 550, 400);
+        myCanvas.drawLine(550, 400, 50, 400);
+        myCanvas.drawLine(50, 400, 50, 50);
+        
         ArrayList<BoxBall> bolas = new ArrayList<>();
-        colores.add(Color.RED);
-        colores.add(Color.BLUE);
-        colores.add(Color.GREEN);
-        colores.add(Color.YELLOW);
-        for (int i = 0; i<numBolas;i++)
+        for (int cont = 0;cont<numbolas;cont++)
         {
-            Random aleatorio = new Random();
-            int posicionX = aleatorio.nextInt(200);
-            int posicionY = aleatorio.nextInt(300);
-            int radio = aleatorio.nextInt(20);
-            BoxBall ball = new BoxBall(posicionX,posicionY,radio,colores.get(aleatorio.nextInt(colores.size())), myCanvas);
-            ball.draw();
-            bolas.add(ball);
-
-        }
-        boolean finished =  false;
-        while (!finished) 
-        {
-            myCanvas.wait(25);// small delay
-            for(BoxBall ball: bolas)
+            int diametro = aleatorio.nextInt(25)+aleatorio.nextInt(25);
+            Color colorA = new Color(aleatorio.nextInt(255),aleatorio.nextInt(255),aleatorio.nextInt(255));
+          
+            int ladx = aleatorio.nextInt(2);
+            int lady = aleatorio.nextInt(2);
+            if (ladx == 0)
             {
-                ball.move();
+                ladx = -1;
             }
-            // stop once ball has travelled a certain distance on x axis
+            if (lady == 0)
+            {
+                lady = -1;
+            }
+          
+            int posInix = aleatorio.nextInt(500);
+            int posIniy = aleatorio.nextInt(350);
+            if(posInix < 50)
+            {
+                posInix = 100;
+            }
+            if(posIniy < 50)
+            {
+                posIniy = 100;
+            }
+          
+            bolas.add(new BoxBall(posInix, posIniy, diametro, colorA, 400, 50, 50, 550, ladx, lady, myCanvas));
+            bolas.get(cont).draw();
+        }
+        
+        while(true)
+        {
+            myCanvas.wait(50);           // small delay
+            for (int cont = 0;cont<numbolas;cont++)
+            {
+                bolas.get(cont).move();
+            }
         }
     }
 }
